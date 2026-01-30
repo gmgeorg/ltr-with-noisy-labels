@@ -28,9 +28,11 @@ class ChoixRanker(Ranker):
         - 'ilsr_pairwise': Iterative Luce Spectral Ranking (default)
         - 'mm_pairwise': Minorization-Maximization for Plackett-Luce
         - 'rank_centrality': Rank Centrality
+    alpha : float
+        Regularization parameter for stability (default: 1e-6)
     """
 
-    def __init__(self, method: str = "ilsr_pairwise"):
+    def __init__(self, method: str = "ilsr_pairwise", alpha: float = 1e-6):
         valid_methods = ["ilsr_pairwise", "mm_pairwise", "rank_centrality"]
         if method not in valid_methods:
             raise ValueError(
@@ -39,6 +41,8 @@ class ChoixRanker(Ranker):
             )
 
         self.method = method
+        self.alpha = alpha
+        self._strengths: np.ndarray | None = None
 
     def fit(self, comparison_data: ComparisonData) -> list[int]:
         """
@@ -72,14 +76,14 @@ class ChoixRanker(Ranker):
             params = choix.ilsr_pairwise(
                 n_items=n_items,
                 data=pairwise_data,
-                alpha=0.01  # Regularization parameter
+                alpha=self.alpha
             )
         elif self.method == "mm_pairwise":
             params = choix.opt_pairwise(
                 n_items=n_items,
                 data=pairwise_data,
                 method="BFGS",  # BFGS optimization method
-                alpha=1e-6  # Small regularization
+                alpha=self.alpha
             )
         elif self.method == "rank_centrality":
             params = choix.rank_centrality(
@@ -87,9 +91,32 @@ class ChoixRanker(Ranker):
                 data=pairwise_data
             )
 
+        # Store strengths for active learning
+        self._strengths = params
+
         # Convert parameters to ranking (higher param = better rank)
         ranking = np.argsort(params)[::-1].tolist()
         return ranking
+
+    def get_strengths(self) -> np.ndarray:
+        """
+        Get learned strength parameters.
+
+        Returns
+        -------
+        strengths : np.ndarray
+            Strength parameters s_i for each item
+
+        Raises
+        ------
+        ValueError
+            If fit() has not been called yet
+        """
+        if self._strengths is None:
+            raise ValueError(
+                "No strengths available. Call fit() first."
+            )
+        return self._strengths
 
     def __repr__(self) -> str:
         return f"ChoixRanker(method='{self.method}')"
@@ -102,6 +129,11 @@ class PlackettLuceRanker(ChoixRanker):
     Uses the choix library's implementation of the MM algorithm
     for computing MLE of Plackett-Luce model parameters.
 
+    Parameters
+    ----------
+    alpha : float, default=1e-6
+        L2 regularization strength for stability
+
     Examples
     --------
     >>> from ltr_wnl.comparisons import ComparisonData
@@ -113,10 +145,11 @@ class PlackettLuceRanker(ChoixRanker):
     >>>
     >>> ranker = PlackettLuceRanker()
     >>> ranking = ranker.fit(data)
+    >>> strengths = ranker.get_strengths()
     """
 
-    def __init__(self):
-        super().__init__(method="mm_pairwise")
+    def __init__(self, alpha: float = 1e-6):
+        super().__init__(method="mm_pairwise", alpha=alpha)
 
 
 class RankCentralityRanker(ChoixRanker):
