@@ -27,9 +27,9 @@ Python research package for learning-to-rank under Beta-distributed comparison n
 
 ## Architecture
 
-**Modules**: `noise/` (BetaNoiseModel), `ground_truth/`, `comparisons/` (ComparisonData, ComparisonGenerator), `ranking/` (BordaCount, PlackettLuce, RankCentrality, PageRank), `sampling/` (RandomSampling), `metrics/` (Kendall's tau, top-k), `simulation/` (SimulationRunner)
+**Modules**: `noise/` (BetaNoiseModel), `ground_truth/`, `comparisons/` (ComparisonData, ComparisonGenerator), `ranking/` (BordaCount, PlackettLuce, RankCentrality, PageRank), `sampling/` (RandomSampler), `metrics/` (Kendall's tau, top-k), `simulation/` (SimulationRunner)
 
-**Design**: Modular with abstract base classes (`NoiseModel`, `Ranker`, `SamplingStrategy`)
+**Design**: Modular with abstract base classes (`NoiseModel`, `Ranker`, `SamplerStrategy`)
 
 ## Extending the Package
 
@@ -69,7 +69,7 @@ runner = simulation.SimulationRunner(
     n_items=100,
     noise_model=noise.BetaNoiseModel(mu=0.3, phi=2.0),
     ranker=ranking.PlackettLuceRanker(),
-    sampling_strategy=sampling.RandomSampling()
+    sampling_strategy=sampling.RandomSampler()
 )
 
 results = runner.run_trial(n_comparisons=500, random_state=42)

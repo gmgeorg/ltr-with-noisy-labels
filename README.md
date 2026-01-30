@@ -34,7 +34,7 @@ runner = simulation.SimulationRunner(
     n_items=100,
     noise_model=noise.BetaNoiseModel(mu=0.3, phi=2.0),
     ranker=ranking.choix_rankers.PlackettLuceRanker(),
-    sampling_strategy=sampling.RandomSampling()
+    sampling_strategy=sampling.RandomSampler()
 )
 
 # Run trial

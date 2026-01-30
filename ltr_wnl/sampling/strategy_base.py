@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from ltr_wnl.comparisons.data import ComparisonData
 
 
-class SamplingStrategy(ABC):
+class SamplerStrategy(ABC):
     """
     Abstract base class for pair selection strategies.
 

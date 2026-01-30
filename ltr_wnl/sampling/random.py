@@ -5,10 +5,10 @@ Random (non-adaptive) sampling strategy.
 import numpy as np
 
 from ltr_wnl.comparisons.data import ComparisonData
-from ltr_wnl.sampling.strategy_base import SamplingStrategy
+from ltr_wnl.sampling.strategy_base import SamplerStrategy
 
 
-class RandomSampling(SamplingStrategy):
+class RandomSampler(SamplerStrategy):
     """
     Uniform random sampling of pairs (non-adaptive baseline).
 
@@ -27,7 +27,7 @@ class RandomSampling(SamplingStrategy):
     --------
     >>> from ltr_wnl.comparisons import ComparisonData
     >>>
-    >>> strategy = RandomSampling(allow_repeats=False)
+    >>> strategy = RandomSampler(allow_repeats=False)
     >>> data = ComparisonData(n_items=5)
     >>> i, j = strategy.select_next_pair(data, n_items=5)
     >>> 0 <= i < j < 5
@@ -84,4 +84,4 @@ class RandomSampling(SamplingStrategy):
             return tuple(sorted([i, j]))
 
     def __repr__(self) -> str:
-        return f"RandomSampling(allow_repeats={self.allow_repeats})"
+        return f"RandomSampler(allow_repeats={self.allow_repeats})"

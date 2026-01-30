@@ -14,7 +14,7 @@ import pytest
 from ltr_wnl.simulation.runner import SimulationRunner
 from ltr_wnl.noise.beta_noise import BetaNoiseModel
 from ltr_wnl.ranking.borda_count import BordaCountRanker
-from ltr_wnl.sampling.random import RandomSampling
+from ltr_wnl.sampling.random import RandomSampler
 from ltr_wnl.comparisons.data import ComparisonData
 
 
@@ -25,7 +25,7 @@ class TestSimulationRunner:
         """Test SimulationRunner initialization."""
         noise = BetaNoiseModel(mu=0.2, phi=10.0)
         ranker = BordaCountRanker()
-        sampling = RandomSampling()
+        sampling = RandomSampler()
 
         runner = SimulationRunner(
             n_items=5,
@@ -45,7 +45,7 @@ class TestSimulationRunner:
             n_items=5,
             noise_model=BetaNoiseModel(mu=0.2, phi=10.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         results = runner.run_trial(n_comparisons=20, random_state=42)
@@ -65,7 +65,7 @@ class TestSimulationRunner:
             n_items=10,
             noise_model=BetaNoiseModel(mu=0.1, phi=20.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         results = runner.run_trial(n_comparisons=50, random_state=42)
@@ -89,7 +89,7 @@ class TestSimulationRunner:
             n_items=5,
             noise_model=BetaNoiseModel(mu=0.2, phi=10.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         n_comparisons = 30
@@ -104,7 +104,7 @@ class TestSimulationRunner:
             n_items=8,
             noise_model=BetaNoiseModel(mu=0.3, phi=5.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         # Run trial twice with same seed
@@ -126,7 +126,7 @@ class TestSimulationRunner:
             n_items=8,
             noise_model=BetaNoiseModel(mu=0.3, phi=5.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         # Run with different seeds
@@ -148,7 +148,7 @@ class TestSimulationRunner:
             n_items=4,
             noise_model=BetaNoiseModel(mu=0.1, phi=50.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         results = runner.run_trial(
@@ -170,7 +170,7 @@ class TestSimulationRunner:
             n_items=6,
             noise_model=BetaNoiseModel(mu=0.05, phi=100.0),  # Very low noise
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         # With many comparisons and low noise, should recover ranking well
@@ -185,7 +185,7 @@ class TestSimulationRunner:
             n_items=6,
             noise_model=BetaNoiseModel(mu=0.4, phi=5.0),  # High noise
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         # With high noise and few comparisons, ranking will be poor
@@ -201,7 +201,7 @@ class TestSimulationRunner:
             n_items=5,
             noise_model=BetaNoiseModel(mu=0.2, phi=10.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         results = runner.run_trial(n_comparisons=30, random_state=42)
@@ -221,7 +221,7 @@ class TestSimulationRunner:
             n_items=7,
             noise_model=BetaNoiseModel(mu=0.2, phi=10.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         results = runner.run_trial(n_comparisons=40, random_state=42)
@@ -239,7 +239,7 @@ class TestSimulationRunner:
             n_items=5,
             noise_model=BetaNoiseModel(mu=0.2, phi=10.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         results = runner.run_trial(n_comparisons=25, random_state=42)
@@ -267,7 +267,7 @@ class TestSimulationRunner:
             n_items=6,
             noise_model=BetaNoiseModel(mu=0.2, phi=20.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         # Use fixed ground truth for fair comparison
@@ -300,7 +300,7 @@ class TestSimulationRunner:
             n_items=5,
             noise_model=BetaNoiseModel(mu=0.1, phi=50.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         results = runner.run_trial(n_comparisons=30, random_state=42)
@@ -322,7 +322,7 @@ class TestSimulationRunner:
 
         noise = BetaNoiseModel(mu=0.15, phi=30.0)
         ranker = BordaCountRanker()
-        sampling = RandomSampling(allow_repeats=False)
+        sampling = RandomSampler(allow_repeats=False)
 
         runner = SimulationRunner(
             n_items=8,
@@ -367,7 +367,7 @@ class TestSimulationRunner:
             n_items=5,
             noise_model=BetaNoiseModel(mu=0.2, phi=20.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         # Run multiple trials with different seeds
@@ -392,7 +392,7 @@ class TestSimulationRunner:
             n_items=10,
             noise_model=BetaNoiseModel(mu=0.3, phi=10.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         repr_str = repr(runner)
@@ -400,7 +400,7 @@ class TestSimulationRunner:
         assert "n_items=10" in repr_str
         assert "BetaNoiseModel" in repr_str
         assert "BordaCountRanker" in repr_str
-        assert "RandomSampling" in repr_str
+        assert "RandomSampler" in repr_str
 
     def test_no_comparisons_edge_case(self):
         """Test behavior with zero comparisons (edge case)."""
@@ -408,7 +408,7 @@ class TestSimulationRunner:
             n_items=5,
             noise_model=BetaNoiseModel(mu=0.2, phi=10.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling()
+            sampling_strategy=RandomSampler()
         )
 
         # With 0 comparisons, ranker should still produce a ranking
@@ -425,7 +425,7 @@ class TestSimulationRunner:
             n_items=4,
             noise_model=BetaNoiseModel(mu=0.001, phi=1000.0),
             ranker=BordaCountRanker(),
-            sampling_strategy=RandomSampling(allow_repeats=False)
+            sampling_strategy=RandomSampler(allow_repeats=False)
         )
 
         # Compare all pairs: C(4, 2) = 6 pairs
