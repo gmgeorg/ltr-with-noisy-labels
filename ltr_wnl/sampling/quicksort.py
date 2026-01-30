@@ -2,8 +2,10 @@
 Quicksort-based adaptive sampling strategy.
 
 Implements the 'Multisort' algorithm from:
-Ailon, N. (2012). "An Active Learning Algorithm for Ranking from Pairwise Preferences
-with an Almost Optimal Query Complexity." https://arxiv.org/pdf/1502.05556
+Maystre, L., & Grossglauser, M. (2017). "Just Sort It! A Simple and Effective
+Approach to Active Preference Learning." Proceedings of the 34th International
+Conference on Machine Learning (ICML 2017).
+https://dl.acm.org/doi/10.5555/3305890.3305923
 
 WARNING: This algorithm assumes noiseless or low-noise comparisons. Performance
 may degrade significantly with high error rates.
